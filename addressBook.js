@@ -85,8 +85,17 @@ class AddressBookManager {
         }
         if (!(contact instanceof Contact)) throw new Error("Invalid contact object");
 
+        const isDuplicate = this.addressBooks[bookName].some(
+            existingContact => existingContact.getFullName() === contact.getFullName()
+        );
+
+        if (isDuplicate) {
+            throw new Error(`Duplicate contact '${contact.getFullName()}' found in '${bookName}'`);
+        }
+
         this.addressBooks[bookName].push(contact);
     }
+
     findContactByName(bookName, fullName) {
         if (!this.addressBooks[bookName]) {
             throw new Error(`Address Book '${bookName}' does not exist.`);
