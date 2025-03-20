@@ -194,6 +194,45 @@ class AddressBookManager {
         console.log(`\n📋 Sorted Contacts in '${bookName}' by Name:`);
         this.displayContacts(sortedContacts);
     }
+    sortContactsByCity(bookName) {
+        if (!this.addressBooks[bookName]) {
+            throw new Error(`Address Book '${bookName}' does not exist.`);
+        }
+
+        const sortedContacts = [...this.addressBooks[bookName]].sort((a, b) =>
+            a.city.localeCompare(b.city)
+        );
+
+        console.log(`\n🏙️ Sorted Contacts in '${bookName}' by City:`);
+        this.displayContacts(sortedContacts);
+    }
+
+    sortContactsByState(bookName) {
+        if (!this.addressBooks[bookName]) {
+            throw new Error(`Address Book '${bookName}' does not exist.`);
+        }
+
+        const sortedContacts = [...this.addressBooks[bookName]].sort((a, b) =>
+            a.state.localeCompare(b.state)
+        );
+
+        console.log(`\n🌎 Sorted Contacts in '${bookName}' by State:`);
+        this.displayContacts(sortedContacts);
+    }
+
+    sortContactsByZip(bookName) {
+        if (!this.addressBooks[bookName]) {
+            throw new Error(`Address Book '${bookName}' does not exist.`);
+        }
+
+        const sortedContacts = [...this.addressBooks[bookName]].sort((a, b) =>
+            a.zip.localeCompare(b.zip)
+        );
+
+        console.log(`\n📬 Sorted Contacts in '${bookName}' by ZIP Code:`);
+        this.displayContacts(sortedContacts);
+    }
+
 
     displayContacts(contacts) {
         if (contacts.length === 0) {
@@ -219,18 +258,3 @@ class AddressBookManager {
         }
     }
 }
-
-const manager = new AddressBookManager();
-
-manager.createAddressBook("Family");
-manager.addContactToBook("Family", new Contact("John", "Doe", "123 Main St", "Los Angeles", "California", "900001", "9876543210", "john.doe@example.com"));
-manager.addContactToBook("Family", new Contact("Alice", "Johnson", "456 Elm St", "Seattle", "Washington", "981041", "8765432109", "alice.j@example.com"));
-manager.addContactToBook("Family", new Contact("Bob", "Smith", "789 Oak St", "Los Angeles", "California", "900002", "7654321098", "bob.smith@example.com"));
-
-console.log("\n🔍 Searching for contacts in 'Los Angeles':");
-manager.countByCityOrState("Family");
-
-console.log("\n🔍 Searching for contacts in 'Washington':");
-manager.searchByCityOrState("Family", "Washington");
-console.log("\n📋 Sorting contacts by name in 'Family' Address Book:");
-manager.sortContactsByName("Family");
