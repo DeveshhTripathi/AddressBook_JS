@@ -141,16 +141,38 @@ class AddressBookManager {
         return Object.values(this.addressBooks).reduce((total, contacts) => total + contacts.length, 0);
     }
 
+    searchByCityOrState(bookName, location) {
+        if (!this.addressBooks[bookName]) {
+            throw new Error(`Address Book '${bookName}' does not exist.`);
+        }
 
-    displayAllBooks() {
-        for (const [bookName, contacts] of Object.entries(this.addressBooks)) {
-            console.log(`Address Book: ${bookName}`);
+        const results = this.addressBooks[bookName].filter(
+            contact => contact.city === location || contact.state === location
+        );
+
+        this.displayContacts(results);
+    }
+    displayContacts(contacts) {
+        if (contacts.length === 0) {
+            console.log(`No contacts found.`);
+        } else {
             contacts.forEach(contact => {
                 console.log(
-                    contact.getFullName(),',', contact.phoneNumber, ',', contact.email, ',', contact.city, ',', contact.state, ',', contact.zip
+                    contact.getFullName(),
+                    ',', contact.phoneNumber,
+                    ',', contact.email,
+                    ',', contact.city,
+                    ',', contact.state,
+                    ',', contact.zip
                 );
             });
         }
     }
 
+    displayAllBooks() {
+        for (const [bookName, contacts] of Object.entries(this.addressBooks)) {
+            console.log(`\n📖 Address Book: ${bookName}`);
+            this.displayContacts(contacts);
+        }
+    }
 }
