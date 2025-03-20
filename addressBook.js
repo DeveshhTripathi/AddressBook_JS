@@ -105,6 +105,21 @@ class AddressBookManager {
         console.log(`Contact '${fullName}' updated successfully.`);
     }
 
+    deleteContact(bookName, fullName) {
+        if (!this.addressBooks[bookName]) {
+            throw new Error(`Address Book '${bookName}' does not exist.`);
+        }
+
+        const index = this.addressBooks[bookName].findIndex(contact => contact.getFullName() === fullName);
+
+        if (index === -1) {
+            throw new Error(`Contact '${fullName}' not found in '${bookName}'`);
+        }
+
+        this.addressBooks[bookName].splice(index, 1);
+        console.log(`Contact '${fullName}' deleted successfully.`);
+    }
+
     displayAllBooks() {
         for (const [bookName, contacts] of Object.entries(this.addressBooks)) {
             console.log(`Address Book: ${bookName}`);
