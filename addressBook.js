@@ -153,6 +153,47 @@ class AddressBookManager {
         this.displayContacts(results);
     }
 
+    countByCityOrState(bookName) {
+        if (!this.addressBooks[bookName]) {
+            throw new Error(`Address Book '${bookName}' does not exist.`);
+        }
+
+        const cityCount = this.addressBooks[bookName]
+            .map(contact => contact.city)
+            .reduce((countMap, city) => {
+                countMap[city] = (countMap[city] || 0) + 1;
+                return countMap;
+            }, {});
+
+        const stateCount = this.addressBooks[bookName]
+            .map(contact => contact.state)
+            .reduce((countMap, state) => {
+                countMap[state] = (countMap[state] || 0) + 1;
+                return countMap;
+            }, {});
+
+        console.log("\n📍 Contacts by City:");
+        Object.entries(cityCount).forEach(([city, count]) => {
+            console.log(`${city}: ${count}`);
+        });
+
+        console.log("\n🌎 Contacts by State:");
+        Object.entries(stateCount).forEach(([state, count]) => {
+            console.log(`${state}: ${count}`);
+        });
+    }
+    sortContactsByName(bookName) {
+        if (!this.addressBooks[bookName]) {
+            throw new Error(`Address Book '${bookName}' does not exist.`);
+        }
+
+        const sortedContacts = [...this.addressBooks[bookName]].sort((a, b) =>
+            a.getFullName().localeCompare(b.getFullName())
+        );
+
+        console.log(`\n📋 Sorted Contacts in '${bookName}' by Name:`);
+        this.displayContacts(sortedContacts);
+    }
 
     displayContacts(contacts) {
         if (contacts.length === 0) {
