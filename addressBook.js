@@ -152,6 +152,8 @@ class AddressBookManager {
 
         this.displayContacts(results);
     }
+
+
     displayContacts(contacts) {
         if (contacts.length === 0) {
             console.log(`No contacts found.`);
@@ -176,3 +178,18 @@ class AddressBookManager {
         }
     }
 }
+
+const manager = new AddressBookManager();
+
+manager.createAddressBook("Family");
+manager.addContactToBook("Family", new Contact("John", "Doe", "123 Main St", "Los Angeles", "California", "900001", "9876543210", "john.doe@example.com"));
+manager.addContactToBook("Family", new Contact("Alice", "Johnson", "456 Elm St", "Seattle", "Washington", "981041", "8765432109", "alice.j@example.com"));
+manager.addContactToBook("Family", new Contact("Bob", "Smith", "789 Oak St", "Los Angeles", "California", "900002", "7654321098", "bob.smith@example.com"));
+
+console.log("\n🔍 Searching for contacts in 'Los Angeles':");
+manager.countByCityOrState("Family");
+
+console.log("\n🔍 Searching for contacts in 'Washington':");
+manager.searchByCityOrState("Family", "Washington");
+console.log("\n📋 Sorting contacts by name in 'Family' Address Book:");
+manager.sortContactsByName("Family");
