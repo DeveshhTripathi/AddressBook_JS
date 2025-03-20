@@ -43,6 +43,10 @@ class Contact {
     getFullName() {
         return `${this.firstName} ${this.lastName}`;
     }
+
+    updateDetails(updatedDetails) {
+        Object.assign(this, updatedDetails);
+    }
 }
 
 class AddressBook {
@@ -83,10 +87,27 @@ class AddressBookManager {
 
         this.addressBooks[bookName].push(contact);
     }
+    findContactByName(bookName, fullName) {
+        if (!this.addressBooks[bookName]) {
+            throw new Error(`Address Book '${bookName}' does not exist.`);
+        }
+
+        return this.addressBooks[bookName].find(contact => contact.getFullName() === fullName);
+    }
+
+    editContact(bookName, fullName, updatedDetails) {
+        const contact = this.findContactByName(bookName, fullName);
+        if (!contact) {
+            throw new Error(`Contact '${fullName}' not found in '${bookName}'`);
+        }
+
+        contact.updateDetails(updatedDetails);
+        console.log(`Contact '${fullName}' updated successfully.`);
+    }
 
     displayAllBooks() {
         for (const [bookName, contacts] of Object.entries(this.addressBooks)) {
-            console.log(`\n📖 Address Book: ${bookName}`);
+            console.log(`Address Book: ${bookName}`);
             contacts.forEach(contact => {
                 console.log(
                     contact.getFullName(),',', contact.phoneNumber, ',', contact.email, ',', contact.city, ',', contact.state, ',', contact.zip
@@ -94,4 +115,5 @@ class AddressBookManager {
             });
         }
     }
+
 }
