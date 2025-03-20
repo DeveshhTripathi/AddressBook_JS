@@ -120,6 +120,19 @@ class AddressBookManager {
         console.log(`Contact '${fullName}' deleted successfully.`);
     }
 
+    countContactsInBook(bookName) {
+        if (!this.addressBooks[bookName]) {
+            throw new Error(`Address Book '${bookName}' does not exist.`);
+        }
+
+        return this.addressBooks[bookName].length;
+    }
+
+    countTotalContacts() {
+        return Object.values(this.addressBooks).reduce((total, contacts) => total + contacts.length, 0);
+    }
+
+
     displayAllBooks() {
         for (const [bookName, contacts] of Object.entries(this.addressBooks)) {
             console.log(`Address Book: ${bookName}`);
